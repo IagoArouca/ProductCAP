@@ -1,0 +1,5 @@
+ID;identifier;name;description;imageURL;price;currency_code;stock;criticality;category_ID
+77f864e4-7836-40f4-9f20-802758810001;PROD-001;MacBook Pro 14;M3 Chip, 16GB RAM, 512GB SSD;https://m.media-amazon.com/images/I/618mSPr6S2L._AC_SL1500_.jpg;12500.00;BRL;15;3;1
+77f864e4-7836-40f4-9f20-802758810002;PROD-002;iPhone 15 Pro;Titanium, 256GB, Black;https://m.media-amazon.com/images/I/81SigAnN7iL._AC_SL1500_.jpg;7500.00;BRL;5;2;1
+77f864e4-7836-40f4-9f20-802758810003;PROD-003;Monitor Dell 27;4K UHD, IPS, USB-C Hub;https://m.media-amazon.com/images/I/71pE175mSjL._AC_SL1500_.jpg;3200.00;BRL;0;1;2
+77f864e4-7836-40f4-9f20-802758810004;PROD-004;Teclado Mecânico;RGB, Silent Switches, Wireless;https://m.media-amazon.com/images/I/61fW8-JAt3L._AC_SL1500_.jpg;850.00;BRL;50;3;2

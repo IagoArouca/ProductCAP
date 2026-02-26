@@ -6,22 +6,24 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^7",
-    "@sap/cds-hana": "^2",
-    "@sap/xssec": "^3",
+    "@sap/cds": "^8",
+    "@cap-js/hana": "^1",
+    "@sap/xssec": "^4",
     "express": "^4",
     "passport": "^0"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
-    "@sap/ux-specification": "^1.120.14"
+    "@sap/ux-specification": "^1.120.14",
+    "cds-plugin-ui5": "^0.13.0"
   },
   "scripts": {
     "start": "cds-serve",
     "watch": "cds watch",
     "undeploy": "cds deploy --to sqlite:db/products.db",
     "build": "cds build",
-    "deploy": "cds deploy"
+    "deploy": "cds deploy",
+    "watch-products": "cds watch --open products/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "cds": {
     "requires": {
@@ -31,5 +33,11 @@
     "features": {
       "fetch_csrf": true
     }
-  }
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/products"
+  ]
 }

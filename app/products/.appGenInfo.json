@@ -1,0 +1,28 @@
+{
+  "generationParameters": {
+    "generationDate": "Thu Feb 26 2026 17:18:24 GMT-0300 (Brasilia Standard Time)",
+    "generatorPlatform": "Visual Studio Code",
+    "serviceType": "Local CAP",
+    "metadataFilename": "",
+    "serviceUrl": "http://localhost:4004/odata/v4/product/",
+    "appName": "products",
+    "appTitle": "Gestão de Produtos",
+    "appDescription": "Aplicativo para Gerenciamento de Produtos",
+    "appNamespace": "",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.145.0",
+    "enableEslint": false,
+    "enableTypeScript": false,
+    "showMockDataInfo": false,
+    "generatorVersion": "1.20.2",
+    "template": "List Report Page V4",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [
+      {
+        "type": "Main Entity",
+        "value": "Products"
+      }
+    ],
+    "launchText": "To launch the generated app, start your CAP project:  and navigate to the following location in your browser:\n\nhttp://localhost:4004/products/webapp/index.html"
+  }
+}
