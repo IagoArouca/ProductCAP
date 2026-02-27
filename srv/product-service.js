@@ -2,7 +2,7 @@ const cds = require('@sap/cds')
 
 module.exports = class ProductService extends cds.ApplicationService {
     async init() {
-        // Buscando as entidades com o namespace correto
+
         const { Products, Orders, OrderItems } = cds.entities('app.products')
 
         this.on('addToCart', 'Products', async (req) => {
@@ -11,17 +11,13 @@ module.exports = class ProductService extends cds.ApplicationService {
 
             if (!quantity || quantity <= 0) return req.error(400, 'A quantidade deve ser maior que zero.')
 
-            // Pegamos a transação atual
             const tx = cds.tx(req)
-            
-            // 1. Buscar produto
+
             const product = await tx.run(SELECT.one.from(Products).where({ ID: productID }))
             
             if (!product) return req.error(404, 'Produto não encontrado.')
             if (product.stock < quantity) return req.error(400, `Estoque insuficiente. Disponível: ${product.stock}`)
 
-            // 2. Lógica de Pedido
-            // Buscamos um pedido existente para este "cliente" (mockado como Alex Dev)
             let activeOrder = await tx.run(SELECT.one.from(Orders).where({ customerName: 'Alex (Dev)' }))
             
             let orderID
@@ -36,12 +32,10 @@ module.exports = class ProductService extends cds.ApplicationService {
                 }))
             } else {
                 orderID = activeOrder.ID
-                // Atualiza o valor total do pedido existente
                 const newTotal = Number(activeOrder.totalAmount) + (Number(product.price) * quantity)
                 await tx.run(UPDATE(Orders).set({ totalAmount: newTotal }).where({ ID: orderID }))
             }
 
-            // 3. Criar o item no carrinho (OrderItems)
             await tx.run(INSERT.into(OrderItems).entries({
                 ID: cds.utils.uuid(),
                 parent_ID: orderID,
@@ -51,7 +45,6 @@ module.exports = class ProductService extends cds.ApplicationService {
                 currency_code: product.currency_code
             }))
 
-            // 4. Atualizar Estoque do Produto
             const newStock = product.stock - quantity
             let newCrit = 3
             if (newStock <= 0) newCrit = 1
