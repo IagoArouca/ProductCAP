@@ -1,6 +1,7 @@
 using ProductService as service from './product-service';
 
 annotate service.Products with @(
+
     UI.HeaderInfo: {
         TypeName: 'Produto',
         TypeNamePlural: 'Produtos',
@@ -8,10 +9,17 @@ annotate service.Products with @(
         Description: { Value: identifier },
         ImageUrl: imageURL
     },
-    
+
     UI.SelectionFields: [ category_ID, identifier ],
-    
+
     UI.LineItem: [
+
+        { 
+            $Type: 'UI.DataFieldForAction', 
+            Action: 'ProductService.addToCart', 
+            Label: 'Adicionar ao Carrinho',
+            InvocationGrouping: #Isolated 
+        },
         { Value: imageURL },
         { Value: identifier, Label: 'SKU' },
         { Value: name, Label: 'Produto' },
@@ -56,9 +64,18 @@ annotate service.Products with @(
             { Value: currency_code },
             { Value: stock }
         ]
-    }
+    },
+
+    UI.Identification: [
+        { 
+            $Type: 'UI.DataFieldForAction', 
+            Action: 'ProductService.addToCart', 
+            Label: 'Adicionar ao Carrinho' 
+        }
+    ]
 );
 
 annotate service.Products with {
     imageURL @UI.IsImageURL: true;
+    category @Common.Text: category.name @Common.TextArrangement: #TextOnly;
 };
