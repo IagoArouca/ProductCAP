@@ -1,7 +1,7 @@
 using { app.products as my } from '../db/schema';
 
 service ProductService {
-
+    
     entity Products as projection on my.Products actions {
 
         @cds.odata.bindingparameter.name: '_it'

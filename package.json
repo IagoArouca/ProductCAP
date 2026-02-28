@@ -23,7 +23,8 @@
     "undeploy": "cds deploy --to sqlite:db/products.db",
     "build": "cds build",
     "deploy": "cds deploy",
-    "watch-products": "cds watch --open products/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "watch-products": "cds watch --open products/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-orders": "cds watch --open orders/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "cds": {
     "requires": {
@@ -38,6 +39,7 @@
     "app/*"
   ],
   "sapux": [
-    "app/products"
+    "app/products",
+    "app/orders"
   ]
 }
