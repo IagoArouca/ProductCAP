@@ -34,7 +34,7 @@ entity Categories : CodeList {
 entity Orders : managed {
     key ID           : UUID;
     @title: '{i18n>OrderNumber}'
-    orderNo          : String(10) @readonly;
+    orderNo          : String(10);
     customerName     : String(100);
     totalAmount      : Decimal(15, 2);
     currency         : Currency;

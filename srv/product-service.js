@@ -58,6 +58,18 @@ module.exports = class ProductService extends cds.ApplicationService {
             return `O produto ${product.name} foi adicionado ao pedido!`
         })
 
+        this.before('NEW', 'Orders.drafts', async (req) => {
+        req.data.orderNo = `ORD-${Math.floor(1000 + Math.random() * 9000)}`;
+        req.data.customerName = 'Novo Cliente'; 
+        req.data.totalAmount = 0;
+        req.data.currency_code = 'BRL'});
+
+        this.before('NEW', 'OrderItems.drafts', async (req) => {
+            req.data.quantity = 1;
+            req.data.itemPrice = 0;
+            req.data.currency_code = 'BRL';
+        });
+
         await super.init()
     }
 }
