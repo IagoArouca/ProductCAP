@@ -39,7 +39,7 @@ entity Orders : managed {
     totalAmount      : Decimal(15, 2);
     currency         : Currency;
 
-    items            : Association to many OrderItems on items.parent = $self;
+    items            : Composition of many OrderItems on items.parent = $self;
 
 }
 

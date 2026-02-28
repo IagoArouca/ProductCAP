@@ -10,5 +10,9 @@ service ProductService {
     };
 
     @readonly entity Categories as projection on my.Categories;
+
+    @odata.draft.enabled
     entity Orders as projection on my.Orders;
+
+    entity OrderItems as projection on my.OrderItems;
 }

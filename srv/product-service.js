@@ -18,14 +18,14 @@ module.exports = class ProductService extends cds.ApplicationService {
             if (!product) return req.error(404, 'Produto não encontrado.')
             if (product.stock < quantity) return req.error(400, `Estoque insuficiente. Disponível: ${product.stock}`)
 
-            let activeOrder = await tx.run(SELECT.one.from(Orders).where({ customerName: 'Alex (Dev)' }))
+            let activeOrder = await tx.run(SELECT.one.from(Orders).where({ customerName: 'Iago (Dev)' }))
             
             let orderID
             if (!activeOrder) {
                 orderID = cds.utils.uuid() 
                 await tx.run(INSERT.into(Orders).entries({
                     ID: orderID,
-                    customerName: 'Alex (Dev)',
+                    customerName: 'Iago (Dev)',
                     orderNo: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
                     totalAmount: (product.price * quantity),
                     currency_code: product.currency_code
