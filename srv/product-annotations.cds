@@ -1,7 +1,6 @@
 using ProductService as service from './product-service';
 
 annotate service.Products with @(
-
     UI.HeaderInfo: {
         TypeName: 'Produto',
         TypeNamePlural: 'Produtos',
@@ -14,26 +13,23 @@ annotate service.Products with @(
 
     UI.LineItem: [
 
-        { 
-            $Type: 'UI.DataFieldForAction', 
-            Action: 'ProductService.addToCart', 
+        {
+            $Type: 'UI.DataFieldForAction',
+            Action: 'ProductService.addToCart',
             Label: 'Adicionar ao Carrinho',
-            InvocationGrouping: #Isolated 
+            Inline: true,
+            Mapping: [{
+                $Type: 'UI.ParameterMapping',
+                LocalProperty: 'quantity',
+                ValueListProperty: 'quantity'
+            }]
         },
-        { Value: imageURL },
+        { Value: imageURL, Label: 'Imagem' },
         { Value: identifier, Label: 'SKU' },
         { Value: name, Label: 'Produto' },
         { Value: category.name, Label: 'Categoria' },
-        { 
-            Value: price, 
-            Criticality: criticality 
-        },
-        { Value: stock, Label: 'Estoque' },
-        { 
-            Value: criticality, 
-            Criticality: criticality, 
-            Label: 'Status' 
-        }
+        { Value: price, Criticality: criticality, Label: 'Preço' },
+        { Value: stock, Label: 'Estoque' }
     ],
 
     UI.Facets: [
@@ -51,26 +47,26 @@ annotate service.Products with @(
 
     UI.FieldGroup #GeneralData: {
         Data: [
-            { Value: identifier },
-            { Value: name },
-            { Value: category_ID },
-            { Value: description }
+            { Value: identifier, Label: 'SKU' },
+            { Value: name, Label: 'Nome do Produto' },
+            { Value: category_ID, Label: 'Categoria' },
+            { Value: description, Label: 'Descrição' }
         ]
     },
 
     UI.FieldGroup #FinancialData: {
         Data: [
-            { Value: price },
-            { Value: currency_code },
-            { Value: stock }
+            { Value: price, Label: 'Preço' },
+            { Value: currency_code, Label: 'Moeda' },
+            { Value: stock, Label: 'Estoque' }
         ]
     },
 
     UI.Identification: [
-        { 
-            $Type: 'UI.DataFieldForAction', 
-            Action: 'ProductService.addToCart', 
-            Label: 'Adicionar ao Carrinho' 
+        {
+            $Type: 'UI.DataFieldForAction',
+            Action: 'ProductService.addToCart',
+            Label: 'Adicionar ao Carrinho'
         }
     ]
 );
@@ -78,4 +74,36 @@ annotate service.Products with @(
 annotate service.Products with {
     imageURL @UI.IsImageURL: true;
     category @Common.Text: category.name @Common.TextArrangement: #TextOnly;
+};
+
+annotate service.Products with @Common.SideEffects #ProductUpdated : {
+    SourceEntities : [ $self ],
+    TargetEntities : [ $self ]
+};
+
+annotate ProductService.Products with actions {
+    addToCart (
+        order_ID @(
+            Common.Label : 'Selecionar Pedido',
+            Common.ValueList : {
+                $Type : 'Common.ValueListType',
+                CollectionPath : 'Orders',
+                Parameters : [
+                    {
+                        $Type : 'Common.ValueListParameterInOut',
+                        LocalDataProperty : order_ID,
+                        ValueListProperty : 'ID'
+                    },
+                    {
+                        $Type : 'Common.ValueListParameterDisplayOnly',
+                        ValueListProperty : 'orderNo'
+                    },
+                    {
+                        $Type : 'Common.ValueListParameterDisplayOnly',
+                        ValueListProperty : 'customerName'
+                    }
+                ]
+            }
+        )
+    );
 };

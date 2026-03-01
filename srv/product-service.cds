@@ -6,7 +6,11 @@ service ProductService {
 
         @cds.odata.bindingparameter.name: '_it'
         @Common.SideEffects: { TargetEntities: ['_it']}
-        action addToCart(quantity: Integer) returns String;
+        action addToCart(
+            quantity: Integer,
+            @title: 'Selecionar Pedido'
+            order_ID: Orders:ID
+        ) returns String;
     };
 
     @readonly entity Categories as projection on my.Categories;

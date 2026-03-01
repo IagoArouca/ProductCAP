@@ -1,5 +1,7 @@
 using ProductService as service from './product-service';
 
+
+
 annotate service.Orders with @(
     UI.HeaderInfo: {
         TypeName: 'Pedido',
@@ -14,8 +16,7 @@ annotate service.Orders with @(
         { Value: orderNo, Label: 'Número do Pedido' },
         { Value: customerName, Label: 'Cliente' },
         { Value: createdAt, Label: 'Data da Compra' },
-        { Value: totalAmount, Label: 'Valor Total' },
-        { Value: currency_code, Label: 'Moeda' }
+        { Value: totalAmount, Label: 'Valor Total' }
     ],
 
     UI.Facets: [
@@ -36,36 +37,29 @@ annotate service.Orders with @(
             { Value: orderNo, Label: 'Número do Pedido' },
             { Value: customerName, Label: 'Cliente' },
             { Value: totalAmount, Label: 'Valor Total' },
-            { Value: currency_code, Label: 'Moeda' },
             { Value: createdAt, Label: 'Data da Compra' }
         ]
     }
 );
 
+annotate service.Orders with {
+    orderNo @readonly;
+    totalAmount @(readonly, Core.Computed);
+    createdAt @readonly;
+};
+
+
 annotate service.OrderItems with @(
     UI.LineItem: [
-        { Value: product.imageURL, Label: 'Foto' },
+        { Value: product.imageURL, Label: ' ' },
         { Value: product_ID, Label: 'Produto' },
         { Value: quantity, Label: 'Qtd' },
-        { Value: itemPrice, Label: 'Preço Unit.' },
-        { Value: currency_code, Label: 'Moeda' }
+        { Value: itemPrice, Label: 'Preço Unit.' }
     ]
 );
 
 annotate service.OrderItems with {
-    product @(
-        Common.Text: product.name,
-        Common.TextArrangement: #TextOnly
-    );
-};
-
-
-
-annotate service.Orders with {
-    orderNo @readonly; 
-};
-
-annotate service.OrderItems with {
+    itemPrice @Common.FieldControl: #ReadOnly;
     product @(
         Common.Text: product.name,
         Common.TextArrangement: #TextFirst,
@@ -75,7 +69,7 @@ annotate service.OrderItems with {
             Parameters : [
                 {
                     $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : product_ID, // Link com o campo técnico
+                    LocalDataProperty : product_ID,
                     ValueListProperty : 'ID',
                 },
                 {
@@ -83,11 +77,16 @@ annotate service.OrderItems with {
                     ValueListProperty : 'name',
                 },
                 {
-                    $Type : 'Common.ValueListParameterOut',
-                    LocalDataProperty : itemPrice,
+                    $Type : 'Common.ValueListParameterDisplayOnly',
                     ValueListProperty : 'price',
                 }
-            ],
+            ]
         }
     );
+};
+
+
+annotate service.OrderItems with @Common.SideEffects #ItemChanged : {
+    SourceProperties : [ 'quantity', 'product_ID' ],
+    TargetProperties : [ 'parent/totalAmount' ]
 };
